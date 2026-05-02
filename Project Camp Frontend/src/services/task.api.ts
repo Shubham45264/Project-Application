@@ -3,7 +3,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 /* ================= GET TASKS BY PROJECT ================= */
 export const getTasksByProject = async (projectId: string) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/tasks/project/${projectId}`,
+    `${API_BASE_URL}/tasks/project/${projectId}`,
     {
       method: "GET",
       credentials: "include",
@@ -28,7 +28,7 @@ export const createTask = async (
   }
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/tasks/${projectId}`,
+    `${API_BASE_URL}/tasks/${projectId}`,
     {
       method: "POST",
       credentials: "include",
@@ -51,7 +51,7 @@ export const createTask = async (
 /* ================= DELETE TASK ================= */
 export const deleteTask = async (taskId: string) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/tasks/${taskId}`,
+    `${API_BASE_URL}/tasks/${taskId}`,
     {
       method: "DELETE",
       credentials: "include",
@@ -73,7 +73,7 @@ export const updateTaskStatus = async (
   status: "todo" | "in_progress" | "done"
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/tasks/${taskId}`,
+    `${API_BASE_URL}/tasks/${taskId}`,
     {
       method: "PUT",
       credentials: "include",
@@ -97,7 +97,7 @@ export const updateTaskStatus = async (
 export const createSubTask = async (taskId: string, title: string) => {
   console.log("Sending create subtask request", { taskId, title });
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/tasks/${taskId}/subtasks`,
+    `${API_BASE_URL}/tasks/${taskId}/subtasks`,
     {
       method: "POST",
       credentials: "include",
@@ -123,7 +123,7 @@ export const updateSubTaskStatus = async (
   isCompleted: boolean
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/tasks/subtasks/${subtaskId}`,
+    `${API_BASE_URL}/tasks/subtasks/${subtaskId}`,
     {
       method: "PUT",
       credentials: "include",
@@ -146,7 +146,7 @@ export const updateSubTaskStatus = async (
 /* ================= DELETE SUBTASK ================= */
 export const deleteSubTask = async (subtaskId: string) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/tasks/subtasks/${subtaskId}`,
+    `${API_BASE_URL}/tasks/subtasks/${subtaskId}`,
     {
       method: "DELETE",
       credentials: "include",

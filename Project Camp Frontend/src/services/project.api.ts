@@ -1,10 +1,10 @@
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
 
 /* ================= GET PROJECTS ================= */
 export const getProjects = async (search?: string) => {
   const url = search
-    ? `${API_BASE_URL}/api/v1/projects?search=${encodeURIComponent(search)}`
-    : `${API_BASE_URL}/api/v1/projects`;
+    ? `${API_BASE_URL}/projects?search=${encodeURIComponent(search)}`
+    : `${API_BASE_URL}/projects`;
 
   const response = await fetch(url, {
     method: "GET",
@@ -23,7 +23,7 @@ export const getProjects = async (search?: string) => {
 /* ================= GET PROJECT BY ID ================= */
 export const getProjectById = async (projectId: string) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/projects/${projectId}`,
+    `${API_BASE_URL}/projects/${projectId}`,
     {
       method: "GET",
       credentials: "include",
@@ -44,7 +44,7 @@ export const createProject = async (data: {
   name: string;
   description?: string;
 }) => {
-  const response = await fetch(`${API_BASE_URL}/api/v1/projects`, {
+  const response = await fetch(`${API_BASE_URL}/projects`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -68,7 +68,7 @@ export const updateProject = async (
   data: { name: string; description?: string }
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/projects/${projectId}`,
+    `${API_BASE_URL}/projects/${projectId}`,
     {
       method: "PUT",
       credentials: "include",
@@ -91,7 +91,7 @@ export const updateProject = async (
 /* ================= GET MY ROLE ================= */
 export const getMyProjectRole = async (projectId: string) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/projects/${projectId}/role`,
+    `${API_BASE_URL}/projects/${projectId}/role`,
     {
       method: "GET",
       credentials: "include",
@@ -113,7 +113,7 @@ export const addMember = async (
   data: { email: string; role: "member" | "project_admin" | "admin" }
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/projects/${projectId}/members`,
+    `${API_BASE_URL}/projects/${projectId}/members`,
     {
       method: "POST",
       credentials: "include",

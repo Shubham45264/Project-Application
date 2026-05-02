@@ -59,7 +59,7 @@ const Dashboard = () => {
   /* -------- LOGOUT -------- */
   const handleLogout = async () => {
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/v1/auth/logout`, {
+      await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1"}/auth/logout`, {
         method: "POST",
         credentials: "include",
       });

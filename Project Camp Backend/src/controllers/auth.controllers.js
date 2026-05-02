@@ -13,8 +13,8 @@ import crypto from "crypto";
 /* ================= COOKIE OPTIONS (REUSE EVERYWHERE) ================= */
 const cookieOptions = {
   httpOnly: true,
-  secure: true,        // REQUIRED for Netlify (HTTPS)
-  sameSite: "none",    // REQUIRED for cross-domain
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   path: "/",
 };
 
@@ -252,6 +252,36 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, {}, "Password changed successfully"));
+});
+
+/* ================= Resend Email Verification ================= */
+const resendEmailVerification = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (!user) throw new ApiError(404, "User not found");
+
+  if (user.isEmailVerified) {
+    throw new ApiError(409, "Email is already verified");
+  }
+
+  const { unHashedToken, hashedToken, tokenExpiry } =
+    user.generateTemporaryToken();
+
+  user.emailVerificationToken = hashedToken;
+  user.emailVerificationExpiry = tokenExpiry;
+  await user.save({ validateBeforeSave: false });
+
+  await sendEmail({
+    email: user.email,
+    subject: "Verify your email",
+    mailgenContent: emailVerificationMailgenContent(
+      user.username,
+      `${process.env.VERIFY_EMAIL_REDIRECT_URL}/${unHashedToken}`
+    ),
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Verification email resent successfully"));
 });
 
 /* ================= Exports ================= */

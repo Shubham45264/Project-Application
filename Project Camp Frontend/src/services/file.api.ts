@@ -1,9 +1,9 @@
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
 
 /* ================= GET PROJECT FILES ================= */
 export const getProjectFiles = async (projectId: string) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/projects/${projectId}/files`,
+    `${API_BASE_URL}/projects/${projectId}/files`,
     {
       method: "GET",
       credentials: "include",
@@ -22,7 +22,7 @@ export const getProjectFiles = async (projectId: string) => {
 /* ================= UPLOAD FILE ================= */
 export const uploadFile = async (projectId: string, formData: FormData) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/projects/${projectId}/files`,
+    `${API_BASE_URL}/projects/${projectId}/files`,
     {
       method: "POST",
       credentials: "include",
@@ -43,7 +43,7 @@ export const uploadFile = async (projectId: string, formData: FormData) => {
 /* ================= DELETE FILE ================= */
 export const deleteFile = async (projectId: string, fileId: string) => {
   const response = await fetch(
-    `${API_BASE_URL}/api/v1/projects/${projectId}/files/${fileId}`,
+    `${API_BASE_URL}/projects/${projectId}/files/${fileId}`,
     {
       method: "DELETE",
       credentials: "include",
